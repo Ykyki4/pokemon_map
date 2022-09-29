@@ -10,5 +10,6 @@ class Pokemon(models.Model):
 
 
 class PokemonEntity(models.Model):
-    lat = models.FloatField(validators = [MinValueValidator(0.0), MaxValueValidator(100.0)])
-    lon = models.FloatField(validators = [MinValueValidator(0.0), MaxValueValidator(100.0)])
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
+    lat = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    lon = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
