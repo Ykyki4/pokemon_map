@@ -29,8 +29,8 @@ class PokemonEntity(models.Model):
         ]
     )
 
-    appered_at = models.DateTimeField()
-    disappered_at = models.DateTimeField()
+    appered_at = models.DateTimeField(null=True, blank=True)
+    disappered_at = models.DateTimeField(null=True, blank=True)
 
     level = models.IntegerField(
         validators=[
@@ -43,26 +43,34 @@ class PokemonEntity(models.Model):
         validators=[
             MinValueValidator(1),
             MaxValueValidator(500)
-        ]
+        ],
+        null=True,
+        blank=True
     )
 
     strength = models.IntegerField(
         validators=[
             MinValueValidator(1),
             MaxValueValidator(350)
-        ]
+        ],
+        null=True,
+        blank=True
     )
 
     defence = models.IntegerField(
         validators=[
             MinValueValidator(1),
             MaxValueValidator(250)
-        ]
+        ],
+        null=True,
+        blank=True
     )
 
     stamina = models.IntegerField(
         validators=[
             MinValueValidator(1),
             MaxValueValidator(300)
-        ]
+        ],
+        null=True,
+        blank=True
     )
