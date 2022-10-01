@@ -2,11 +2,14 @@ from django.db import models  # noqa F401
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Pokemon(models.Model):
-    title = models.CharField(max_length=50)
+    title_ru = models.CharField(max_length=50)
+    title_en = models.CharField(max_length=50, null=True, blank=True)
+    title_jp = models.CharField(max_length=50, null=True, blank=True)
+    description = models.CharField(max_length=1000, null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
 
     def __str__(self):
-        return self.title
+        return self.title_ru
 
 
 class PokemonEntity(models.Model):
