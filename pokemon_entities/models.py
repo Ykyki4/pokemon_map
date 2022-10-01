@@ -2,12 +2,20 @@ from django.db import models  # noqa F401
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Pokemon(models.Model):
-    title_ru = models.CharField(max_length=50)
-    title_en = models.CharField(max_length=50, null=True, blank=True)
-    title_jp = models.CharField(max_length=50, null=True, blank=True)
-    description = models.CharField(max_length=1000, null=True, blank=True)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    title_ru = models.CharField(verbose_name='Имя на русском', max_length=50)
+    title_en = models.CharField(verbose_name='Имя на английском', max_length=50, null=True, blank=True)
+    title_jp = models.CharField(verbose_name='Имя на японском', max_length=50, null=True, blank=True)
+    description = models.CharField(verbose_name='Описание покемона', max_length=1000, null=True, blank=True)
+    image = models.ImageField(verbose_name='Изображение покемона', upload_to='images/', null=True, blank=True)
 
+    previous_evo = models.ForeignKey(
+        "self",
+        verbose_name='Предыдущая эволюция покемона',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="next_evo"
+    )
     def __str__(self):
         return self.title_ru
 
@@ -15,10 +23,12 @@ class Pokemon(models.Model):
 class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(
         Pokemon,
+        verbose_name='Покемон',
         on_delete=models.CASCADE
     )
 
     lat = models.FloatField(
+        verbose_name='Широта',
         validators=[
             MinValueValidator(0.0),
             MaxValueValidator(100.0)
@@ -26,16 +36,18 @@ class PokemonEntity(models.Model):
     )
 
     lon = models.FloatField(
+        verbose_name='Долгота',
         validators=[
             MinValueValidator(0.0),
             MaxValueValidator(100.0)
         ]
     )
 
-    appered_at = models.DateTimeField(null=True, blank=True)
-    disappered_at = models.DateTimeField(null=True, blank=True)
+    appered_at = models.DateTimeField(verbose_name='Время появления', null=True, blank=True)
+    disappered_at = models.DateTimeField(verbose_name='Время исчезновения', null=True, blank=True)
 
     level = models.IntegerField(
+        verbose_name='Уровень покемона',
         validators=[
             MinValueValidator(1),
             MaxValueValidator(100)
@@ -43,6 +55,7 @@ class PokemonEntity(models.Model):
     )
 
     health = models.IntegerField(
+        verbose_name='Очки жизни покемона',
         validators=[
             MinValueValidator(1),
             MaxValueValidator(500)
@@ -52,6 +65,7 @@ class PokemonEntity(models.Model):
     )
 
     strength = models.IntegerField(
+        verbose_name='Очки силы покемона',
         validators=[
             MinValueValidator(1),
             MaxValueValidator(350)
@@ -61,6 +75,7 @@ class PokemonEntity(models.Model):
     )
 
     defence = models.IntegerField(
+        verbose_name='Очки защиты покемона',
         validators=[
             MinValueValidator(1),
             MaxValueValidator(250)
@@ -70,6 +85,7 @@ class PokemonEntity(models.Model):
     )
 
     stamina = models.IntegerField(
+        verbose_name='Очки выносливости покемона',
         validators=[
             MinValueValidator(1),
             MaxValueValidator(300)
