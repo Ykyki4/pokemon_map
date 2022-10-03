@@ -32,7 +32,7 @@ class PokemonEntity(models.Model):
         verbose_name='Широта',
         validators=[
             MinValueValidator(0.0),
-            MaxValueValidator(100.0)
+            MaxValueValidator(90.0)
         ]
     )
 
@@ -40,7 +40,7 @@ class PokemonEntity(models.Model):
         verbose_name='Долгота',
         validators=[
             MinValueValidator(0.0),
-            MaxValueValidator(100.0)
+            MaxValueValidator(180.0)
         ]
     )
 
