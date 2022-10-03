@@ -3,9 +3,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Pokemon(models.Model):
     title_ru = models.CharField(verbose_name='Имя на русском', max_length=50)
-    title_en = models.CharField(verbose_name='Имя на английском', max_length=50, null=True, blank=True)
-    title_jp = models.CharField(verbose_name='Имя на японском', max_length=50, null=True, blank=True)
-    description = models.CharField(verbose_name='Описание покемона', max_length=1000, null=True, blank=True)
+    title_en = models.CharField(verbose_name='Имя на английском', max_length=50, blank=True)
+    title_jp = models.CharField(verbose_name='Имя на японском', max_length=50, blank=True)
+    description = models.CharField(verbose_name='Описание покемона', max_length=1000, blank=True)
     image = models.ImageField(verbose_name='Изображение покемона', upload_to='images/')
 
     previous_evo = models.ForeignKey(
