@@ -14,7 +14,7 @@ class Pokemon(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="next_evo"
+        related_name="next_evos"
     )
     def __str__(self):
         return self.title_ru
