@@ -1,10 +1,7 @@
 import folium
-import json
 
-from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils.timezone import localtime
-from django.core.exceptions import ObjectDoesNotExist
 from .models import Pokemon, PokemonEntity
 
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -30,13 +27,12 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 
 def show_all_pokemons(request):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    pokemon_entities = PokemonEntity.objects.all()
     current_time = localtime()
+    pokemon_entities = PokemonEntity.objects.filter(
+        appered_at__lte=current_time,
+        disappered_at__gte=current_time
+    )
     for pokemon_entity in pokemon_entities:
-        if pokemon_entity.appered_at > current_time:
-            continue
-        if pokemon_entity.disappered_at < current_time:
-            continue
         add_pokemon(
             folium_map,
             pokemon_entity.lat,
@@ -60,11 +56,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    try:
-        requested_pokemon = Pokemon.objects.get(id=pokemon_id)
-    except Pokemon.DoesNotExist:
-        return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
-
+    requested_pokemon = get_object_or_404(Pokemon, id=pokemon_id)
     if requested_pokemon.previous_evo:
         previous_evolution = {
             'pokemon_id': requested_pokemon.previous_evo.id,
@@ -97,12 +89,12 @@ def show_pokemon(request, pokemon_id):
     current_time = localtime()
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    pokemon_entities = PokemonEntity.objects.filter(pokemon=requested_pokemon)
+    pokemon_entities = PokemonEntity.objects.filter(
+        pokemon=requested_pokemon,
+        appered_at__lte=current_time,
+        disappered_at__gte=current_time
+    )
     for pokemon_entity in pokemon_entities:
-        if pokemon_entity.appered_at > current_time:
-            continue
-        if pokemon_entity.disappered_at < current_time:
-            continue
         add_pokemon(
             folium_map,
             pokemon_entity.lat,
