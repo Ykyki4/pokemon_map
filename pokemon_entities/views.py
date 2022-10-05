@@ -76,7 +76,7 @@ def show_pokemon(request, pokemon_id):
     else:
         next_evolution = None
 
-    pokemon = {
+    pokemon_information = {
         "title_ru": requested_pokemon.title_ru,
         "title_en": requested_pokemon.title_en,
         "title_jp": requested_pokemon.title_jp,
@@ -101,5 +101,5 @@ def show_pokemon(request, pokemon_id):
             f"media/{requested_pokemon.image}"
         )
     return render(request, 'pokemon.html', context={
-        'map': folium_map._repr_html_(), 'pokemon': pokemon
+        'map': folium_map._repr_html_(), 'pokemon': pokemon_information
     })
