@@ -25,13 +25,13 @@ class PokemonEntity(models.Model):
         Pokemon,
         verbose_name='Покемон',
         on_delete=models.CASCADE,
-        related_name="pokemon_entities"
+        related_name="entities"
     )
 
     lat = models.FloatField(
         verbose_name='Широта',
         validators=[
-            MinValueValidator(0.0),
+            MinValueValidator(-90.0),
             MaxValueValidator(90.0)
         ]
     )
@@ -39,7 +39,7 @@ class PokemonEntity(models.Model):
     lon = models.FloatField(
         verbose_name='Долгота',
         validators=[
-            MinValueValidator(0.0),
+            MinValueValidator(-180.0),
             MaxValueValidator(180.0)
         ]
     )
